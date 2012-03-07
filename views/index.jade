@@ -1,0 +1,17 @@
+#idea_new.row
+	div.span3
+		a.btn.btn-primary.btn-large(href="/idea/new") New Idea
+.row
+	h1 Latest Ideas
+.row
+	div#accordion1.accordion.span4
+		-var i = 0;
+		- each idea in ideas
+			-i = i + 1
+			div.accordion-group
+				div.accordion-heading
+					a.accordion-toggle(data-toggle="collapse", data-parent="#accordion1", href="#collapse" + i) #{idea.voters.length} votes | #{idea.title}
+				div.accordion-body.collapse(id="collapse"+ i)
+					div.accordion-inner
+						p= idea.body
+						a.pull-right(href="/idea/"+idea._id.toHexString()) link

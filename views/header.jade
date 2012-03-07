@@ -1,0 +1,15 @@
+div.navbar-fixed-top.navbar
+	div.navbar-inner
+		div.container
+			a.brand(href="/") Steal This Idea
+			ul.nav.pull-right
+				- if (!everyauth.loggedIn)
+					li#signup
+						a(href='/register') Sign Up
+					li#login
+						a(href="/login") Log In
+				-else
+					li#profile
+						a(href= '/profile/' + user.login) Profile
+					li
+						a(href='/logout') Logout

@@ -1,0 +1,45 @@
+div.row
+	div.span3
+		h2 Log In
+		- if ('undefined' !== typeof errors && errors.length)
+			ul#errors
+				- each error in errors
+					li.error= error
+		form(action='/login', method='POST')
+			#login
+				label(for=everyauth.password.loginFormFieldName) Username
+				input(type='text', name=everyauth.password.loginFormFieldName, value=login)
+			#password
+				label(for=everyauth.password.passwordFormFieldName) Password
+				input(type='password', name=everyauth.password.passwordFormFieldName)
+			#submit
+				input.btn.btn-success.btn.pull-right(type='submit') Login
+
+		br
+		br
+		p or
+			
+		div#fb-root
+		script
+				window.fbAsyncInit = function() {
+					FB.init({
+						appId      : 'YOUR_APP_ID',
+						status     : true, 
+						cookie     : true,
+						xfbml      : true,
+						oauth      : true,
+					});
+				};
+				(function(d){
+					var js, id = 'facebook-jssdk'; if (d.getElementById(id)) {return;}
+					js = d.createElement('script'); js.id = id; js.async = true;
+					js.src = "//connect.facebook.net/en_US/all.js";
+					d.getElementsByTagName('head')[0].appendChild(js);
+				}(document));
+		div.fb-login-button Login with Facebook
+
+		script
+			$(document).ready(function() {  
+				var home = document.getElementById(home);
+				var projects = document.getElementById(projects);
+				$("#login").addClass("active");});

@@ -1,0 +1,20 @@
+{
+    "name": "steal_my_idea"
+  , "version": "0.0.1"
+  , "author": "Randy Lubin <randylubin@gmail.com>"
+  , "private": true
+  , "directories": {
+    	"lib": "."
+  }
+  , "dependencies": {
+      "express": ">=2.4.3"
+    , "stylus": ">= 0.0.1"
+    , "jade": ">= 0.0.1"
+    , "mongodb": ">= 0.9.6-7"
+
+    , "bcrypt": ">=0.5.0"
+    , "mongoose": ">=2.4.8"
+    , "everyauth": ">=0.2.28"
+    , "mongoose-types": ">=1.0.3"
+  }
+}

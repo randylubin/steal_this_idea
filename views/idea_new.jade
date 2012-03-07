@@ -1,0 +1,20 @@
+div.row
+	div.span4
+		h1 Submit an Idea:
+		form( method="post")
+			div
+				div
+					- if (everyauth.loggedIn)
+						input(type="hidden", name="userId", value="#{user._id}")
+						input(type="hidden", name="username", value="#{user.login}")
+					- else
+						input(type="hidden", name="userId", value="0")
+						input(type="hidden", name="username", value="Anonymous")           
+				div
+					h3 Title :
+					input(type="text", name="title", id="editIdeaTitle")
+				div
+					h3 Body :
+					textarea( name="body", rows=10, id="editIdeaBody")
+				div#editIdeaSubmit
+					input.btn.btn-success.pull-right(type="submit", value="Submit")

@@ -1,0 +1,10 @@
+div.row
+	div.span6
+		h1 #{title}'s Ideas
+		#ideas
+			- each idea in ideas
+				div.idea
+					//div.created_at= idea.created_at
+					div.title 
+						a(href="/idea/"+idea._id.toHexString())!= idea.title
+					//div.body= idea.body

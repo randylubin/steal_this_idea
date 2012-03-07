@@ -1,0 +1,56 @@
+div.row
+	div.span4
+		h1 Idea: #{title}
+		div.idea
+				//div.created_at= idea.created_at
+				h3 Author: #{idea.username}
+				div.well= idea.body
+				div.votes
+					h3 Votes: #{idea.voters.length}
+						- if (everyauth.loggedIn)
+							- each vote in user.votes
+								if vote == idea._id
+									p Voted!
+							form( method="post", action="/idea/upvote")
+									input( type="hidden", name="_id", value=idea._id.toHexString())
+									input( type="hidden", name="ideaTitle", value=idea.title)
+									input( type="hidden", name="voter", value= user._id)
+									div#upvoteIdea
+										input.btn.btn-success.pull-right(type="submit", value="Upvote")
+						else
+							p login to vote
+div.row
+	div.span3.offset1
+		if idea.steals
+			h3 Stolen:
+			- each steal in idea.steals
+				div.steal
+					p Name: #{steal.title}
+					p Link: #{steal.link}
+		h3 Did you steal it?      
+		div
+			form( method="post", action="/idea/addSteal")
+				input( type="hidden", name="_id", value=idea._id.toHexString())
+				div
+					span Name : 
+					input( type="text", name="title", id="addStealName")
+				div
+					span Link :
+					input( type="text", name="link", id="addStealLink")
+				div.editIdeaSubmit
+					input.btn.btn-success.pull-right(type="submit", value="Submit")    
+		h3 Comments:
+		- each comment in idea.comments
+			div.comment
+				p #{comment.person}: #{comment.comment}
+		div
+			form( method="post", action="/idea/addComment")
+				input( type="hidden", name="_id", value=idea._id.toHexString())
+				div
+					span Author :
+					input( type="text", name="person", id="addCommentPerson")
+				div
+					span Comment :
+					textarea( name="comment", rows=5, id="addCommentComment")
+				div.editIdeaSubmit
+					input.btn.btn-success.pull-right(type="submit", value="Send")

@@ -1,0 +1,10 @@
+div.row
+	div.span6
+		h1= title
+
+		#users
+			- each username in users
+				div.user
+					div.userlink
+						a(href="/user/" + username.login) #{username.login}
+

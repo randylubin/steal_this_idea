@@ -1,0 +1,9 @@
+body {
+  padding-top: 50px;
+  background-color: #fc0;
+  background-image: url("/images/orangeback.gif");
+  background-repeat: repeat;
+}
+.accordion-group {
+  background-color: #fff;
+}
