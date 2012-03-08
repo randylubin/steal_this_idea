@@ -1,3 +1,13 @@
+.facebook-auth
+	- if (!everyauth.loggedIn)
+		#fb-login(style='float: left; margin-left: 5px')
+			a(href='/auth/facebook', style='border: 0px')
+				img(style='border: 0px', src='http://github.com/intridea/authbuttons/raw/master/png/facebook_64.png')
+
+	-else
+		- if (everyauth.facebook)
+			h3 Facebook User Data
+			p= JSON.stringify(everyauth.facebook.user)
 #idea_new.row
 	div.span3
 		a.btn.btn-primary.btn-large(href="/idea/new") New Idea

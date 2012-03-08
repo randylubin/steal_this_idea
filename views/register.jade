@@ -12,18 +12,32 @@ div.row
 			#password
 				label(for=everyauth.password.passwordFormFieldName) Password
 				input(type='password', name=everyauth.password.passwordFormFieldName)
-			//
-				#phone
-					label(for='phone') Phone
-					input(type='text', name='phone')
-				#first-name
-					label(for='name.first') First Name
-					input(type='text', name='name.first')
-				#last-name
-					label(for='name.last') Last Name
-					input(type='text', name='name.last')
+
 			#submit
 				input.btn.btn-success.pull-right(type='submit') Register
+		p or
+		br
+		br
+		div#fb-root
+		script
+			window.fbAsyncInit = function() {
+				FB.init({
+					appId      : '310044639058932',
+					status     : true, 
+					cookie     : true,
+					xfbml      : true,
+					oauth      : true,
+				});
+			};
+			(function(d){
+				var js, id = 'facebook-jssdk'; if (d.getElementById(id)) {return;}
+				js = d.createElement('script'); js.id = id; js.async = true;
+				js.src = "//connect.facebook.net/en_US/all.js";
+				d.getElementsByTagName('head')[0].appendChild(js);
+			}(document));
+		div.fb-registration(data-fields="", data-redirect-uri="http://node.randylubin.com/") Signup with Facebook
+
+
 		script
 			$(document).ready(function() {  
 				var home = document.getElementById(home);

@@ -33,10 +33,11 @@ UserSchema.plugin(mongooseAuth, {
     }
   , facebook: {
       everyauth: {
-          myHostname: 'http://localhost:3000'
+          myHostname: 'http://node.randylubin.com'
         , appId: conf.fb.appId
         , appSecret: conf.fb.appSecret
         , redirectPath: '/'
+
       }
     }
 
@@ -110,6 +111,17 @@ app.get('/', function(req, res){
         });
     })
 });
+
+/*
+app.post('/posted', function(req, res){
+  console.log(req);
+  res.render('posted.jade', { locals: {
+      title: 'posted',
+      info: req
+    }
+  });
+});
+*/
 
 app.get('/users', function(req, res){
     usersDb.findAll( function(error,users){
