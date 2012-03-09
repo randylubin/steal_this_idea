@@ -1,10 +1,21 @@
 div.row
 	div.span3
 		h2 Register
+div.row
+	div.span2
+		br
+		h3  Via Facebook:
+	div.span1
+		#fb-login.pull-right(style='float: left; margin-left: 5px')
+			a(href='/auth/facebook', style='border: 0px')
+				img(style='border: 0px', src='/images/facebook_64.png')		
+
+div.row
+	div.span3
+		h2.center -or-
 		- if ('undefined' !== typeof errors && errors.length)
-			ul#errors
-				- each error in errors
-					li.error= error
+			- each error in errors
+				div.alert.alert-error= error
 		form(action='/register', method='POST')
 			#login
 				label(for=everyauth.password.loginFormFieldName) Username
@@ -15,31 +26,12 @@ div.row
 
 			#submit
 				input.btn.btn-success.pull-right(type='submit') Register
-		p or
 		br
 		br
-		div#fb-root
-		script
-			window.fbAsyncInit = function() {
-				FB.init({
-					appId      : '310044639058932',
-					status     : true, 
-					cookie     : true,
-					xfbml      : true,
-					oauth      : true,
-				});
-			};
-			(function(d){
-				var js, id = 'facebook-jssdk'; if (d.getElementById(id)) {return;}
-				js = d.createElement('script'); js.id = id; js.async = true;
-				js.src = "//connect.facebook.net/en_US/all.js";
-				d.getElementsByTagName('head')[0].appendChild(js);
-			}(document));
-		div.fb-registration(data-fields="", data-redirect-uri="http://node.randylubin.com/") Signup with Facebook
 
+script
+	$(document).ready(function() {  
+		var home = document.getElementById(home);
+		var projects = document.getElementById(projects);
+		$("#signup").addClass("active");});
 
-		script
-			$(document).ready(function() {  
-				var home = document.getElementById(home);
-				var projects = document.getElementById(projects);
-				$("#signup").addClass("active");});

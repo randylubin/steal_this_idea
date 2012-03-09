@@ -1,6 +1,6 @@
 div.row
 	div.span4
-		h1 Idea: #{title}
+		h1.center #{title}
 		div.idea
 				//div.created_at= idea.created_at
 				h3 Author: #{idea.username}
@@ -39,6 +39,14 @@ div.row
 					input( type="text", name="link", id="addStealLink")
 				div.editIdeaSubmit
 					input.btn.btn-success.pull-right(type="submit", value="Submit")    
+		
+div.row
+	div.span5
+		div#idrecentcomments.dsq-widget
+			h2.dsq-widget-title Recent Comments
+			script(type="text/javascript", src="http://stealmyidea.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=0&avatar_size=32&excerpt_length=200")
+
+	//
 		h3 Comments:
 		- each comment in idea.comments
 			div.comment

@@ -7,3 +7,8 @@ body {
 .accordion-group {
   background-color: #fff;
 }
+.center {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}

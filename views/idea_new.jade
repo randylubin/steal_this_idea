@@ -1,5 +1,13 @@
 div.row
 	div.span4
+		br
+		-if (!everyauth.loggedIn)
+			div.alert
+				a.close(data-dismiss='alert') x
+				= "You're posting as Anonymous."
+					br
+					a(href="/login") Login
+					= " to take credit"
 		h1 Submit an Idea:
 		form( method="post")
 			div
@@ -17,4 +25,4 @@ div.row
 					h3 Body :
 					textarea( name="body", rows=10, id="editIdeaBody")
 				div#editIdeaSubmit
-					input.btn.btn-success.pull-right(type="submit", value="Submit")
+					input.btn.btn-success(type="submit", value="Submit")
