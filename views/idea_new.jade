@@ -1,20 +1,24 @@
 div.row
-	div.span4
+	div.span6
 		br
 		-if (!everyauth.loggedIn)
 			div.alert
 				a.close(data-dismiss='alert') x
-				= "You're posting as Anonymous."
-					br
+				= "You're posting as Anonymous. "
 					a(href="/login") Login
 					= " to take credit"
+.row
+	.span4.offset1	
 		h1 Submit an Idea:
 		form( method="post")
 			div
 				div
 					- if (everyauth.loggedIn)
 						input(type="hidden", name="userId", value="#{user._id}")
-						input(type="hidden", name="username", value="#{user.login}")
+						-if (user.fb.name.first)
+							input(type="hidden", name="username", value="#{user.fb.name.first}")
+						-else
+							input(type="hidden", name="username", value="#{user.login}")
 					- else
 						input(type="hidden", name="userId", value="0")
 						input(type="hidden", name="username", value="Anonymous")           

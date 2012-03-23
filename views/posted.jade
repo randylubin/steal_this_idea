@@ -1,3 +1,8 @@
 h1 authed?
 
-p= info
+-if (user)
+  .label User Id
+  .value #{user.id}
+-if (everyauth.facebook)
+  .label User Facebook Id
+  .value #{everyauth.facebook.user.id}

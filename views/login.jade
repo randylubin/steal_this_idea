@@ -6,18 +6,18 @@ div.row
 		h2 Log In
 
 div.row
+	br
 	div.span2
-		br
-		h3 Via Facebook:
-	
-	div.span1
-		#fb-login.pull-right(style='float: left; margin-left: 5px')
+			
+		#fb-login(style='float: left; margin-left: 5px')
 			a(href='/auth/facebook', style='border: 0px')
-				img(style='border: 0px', src='/images/facebook_64.png')		
-div.row
-	div.span3
+				img(style='border: 0px', src='/images/facebook_128.png')		
 
-		h2.center -or-
+	div.span1
+		br
+		br
+		h1= "  -or-  "
+	div.span3
 		- if ('undefined' !== typeof errors && errors.length)
 			- each error in errors
 				div.alert.alert-error= error

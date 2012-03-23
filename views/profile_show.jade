@@ -1,26 +1,39 @@
 div.row
 	div.span6
-		h1= title
-		#ideas
-			h2 Your Ideas:
-			div.row
-				div.span5
-					- each idea in ideas
-						div.idea
-							//div.created_at= idea.created_at
-							div.title 
-								a(href="/idea/"+idea._id.toHexString())!= idea.title
-							//div.body= idea.body
+		if (userInfo.fb)
+			-var name = userInfo.fb.name.full
+		else
+			-var name = userInfo.login
+
+		if (ideas.length == 0)
+			h1 #{name} doesn't have any ideas yet
+			br
+			br
+			
+		else
+
+			h1 #{name}'s Ideas
+
+			#ideas
+				div.row
+					div.span5
+						div#accordion1.accordion
+									-var i = 0;
+									- each idea in ideas
+										-i = i + 1
+										div.accordion-group
+											div.accordion-heading
+												a.accordion-toggle(data-toggle="collapse", data-parent="#accordion1", href="#collapse" + i) #{idea.title}
+													.pull-right \(#{idea.voters.length} Want It\)
+											div.accordion-body.collapse(id="collapse"+ i)
+												div.accordion-inner
+													p= idea.body
+													p= " "
+														
+														a.btn.btn-info.pull-right(href="/idea/"+idea._id.toHexString(), style:"margin-bottom:5px") Idea Page
 		#idea_new.row
 			div.span3
 				a.btn.btn-primary.btn-large(href="/idea/new") New Idea
-		#votes
-			h2 Idea's you've voted for:
-			div.row
-				div.span5
-					- each vote in user.votes
-						div.vote
-							a(href="/idea/"+vote.id)!= vote.title
 		script
 			$(document).ready(function() {  
 				var home = document.getElementById(home);

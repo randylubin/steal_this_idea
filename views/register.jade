@@ -3,16 +3,16 @@ div.row
 		h2 Register
 div.row
 	div.span2
-		br
-		h3  Via Facebook:
-	div.span1
-		#fb-login.pull-right(style='float: left; margin-left: 5px')
+		
+		#fb-login(style='float: left; margin-left: 5px')
 			a(href='/auth/facebook', style='border: 0px')
-				img(style='border: 0px', src='/images/facebook_64.png')		
+				img(style='border: 0px', src='/images/facebook_128.png')		
 
-div.row
+	div.span1
+		br
+		br
+		h1= "  -or-  "
 	div.span3
-		h2.center -or-
 		- if ('undefined' !== typeof errors && errors.length)
 			- each error in errors
 				div.alert.alert-error= error

@@ -1,64 +1,109 @@
-div.row
-	div.span4
-		h1.center #{title}
-		div.idea
-				//div.created_at= idea.created_at
-				h3 Author: #{idea.username}
-				div.well= idea.body
-				div.votes
-					h3 Votes: #{idea.voters.length}
-						- if (everyauth.loggedIn)
-							- each vote in user.votes
-								if vote == idea._id
-									p Voted!
-							form( method="post", action="/idea/upvote")
-									input( type="hidden", name="_id", value=idea._id.toHexString())
-									input( type="hidden", name="ideaTitle", value=idea.title)
-									input( type="hidden", name="voter", value= user._id)
-									div#upvoteIdea
-										input.btn.btn-success.pull-right(type="submit", value="Upvote")
-						else
-							p login to vote
-div.row
-	div.span3.offset1
-		if idea.steals
-			h3 Stolen:
-			- each steal in idea.steals
-				div.steal
-					p Name: #{steal.title}
-					p Link: #{steal.link}
-		h3 Did you steal it?      
-		div
-			form( method="post", action="/idea/addSteal")
-				input( type="hidden", name="_id", value=idea._id.toHexString())
-				div
-					span Name : 
-					input( type="text", name="title", id="addStealName")
-				div
-					span Link :
-					input( type="text", name="link", id="addStealLink")
-				div.editIdeaSubmit
-					input.btn.btn-success.pull-right(type="submit", value="Submit")    
-		
-div.row
-	div.span5
-		div#idrecentcomments.dsq-widget
-			h2.dsq-widget-title Recent Comments
-			script(type="text/javascript", src="http://stealmyidea.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=0&avatar_size=32&excerpt_length=200")
 
-	//
-		h3 Comments:
-		- each comment in idea.comments
-			div.comment
-				p #{comment.person}: #{comment.comment}
-		div
-			form( method="post", action="/idea/addComment")
-				input( type="hidden", name="_id", value=idea._id.toHexString())
+
+div.row
+			div.span6
+				h1.center #{title}
+.row
+
+	.span5
+		
+		div.row
+			div.span5
+				div.idea
+						//div.created_at= idea.created_at
+						h3.center= "By: "
+							a(href="/profile/"+ idea.userId) #{idea.username}
+						div.well(style="margin-bottom:10px;")= idea.body
+				.row
+				
+				
+					div.votes.span3
+						h3 #{idea.voters.length} Users Want This!
+							- if (everyauth.loggedIn)
+								-voted = 0
+								-if (user.login == idea.username)
+									-voted = 1
+								-if (user.fb.name.first == idea.username) 
+									-voted = 2
+								- each vote in user.votes
+									-if (vote.id == idea._id)
+										-voted = 1
+										
+								-if (voted == 1)
+									p You voted for this idea
+								-if (voted == 0)
+									form( method="post", action="/idea/upvote")
+											input( type="hidden", name="_id", value=idea._id.toHexString())
+											input( type="hidden", name="ideaTitle", value=idea.title)
+											input( type="hidden", name="voter", value= user._id)
+											div#upvoteIdea
+												input.btn.btn-success(type="submit", value="I Want It")
+							else
+								p 
+									a(href="/register") Register
+									= " to vote"
+					.span1.offset1
+						iframe(src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fstealthisidea.randylubin.com%2Fidea%2F" + idea._id + "&amp;send=false&amp;layout=button_count&amp;width=450&amp;show_faces=true&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21&amp;appId=310044639058932", scrolling="no", frameborder="0", style="border:none; overflow:hidden; width:450px; height:21px;", allowTransparency="true")
+		div.row
+			div.span5
+				
+				br
+				h3.center.comments Comments
+				
+				-var comcount = 0
+				div.well.comments
+					- each comment in idea.comments
+						-comcount = 1
+						div.comment
+							p 
+								strong= comment.person + ": "
+								#{comment.comment}
+					-if (comcount == 0)
+						script
+							$('.comments').hide()
+				
+				div.span3.offset1
+					h3 Add your thoughts:
+					form( method="post", action="/idea/addComment")
+						input( type="hidden", name="_id", value=idea._id.toHexString())
+						div
+							span Name :
+							input( type="text", name="person", id="addCommentPerson")
+						div
+							span Comment :
+							textarea( name="comment", rows=5, id="addCommentComment")
+						div.editIdeaSubmit
+							input.btn.btn-success.pull-right(type="submit", value="Send")
+	div.span3.offset1
+				br
+				#steals
+					
+					- var steals = 0
+					- each steal in idea.steals
+						- steals = steals + 1
+					- if (steals != 0)
+						h3 Someone has stolen it:
+						- each steal in idea.steals
+							div.steal.content-box
+								
+									h3= steal.title + " - "
+										a(href="http://" + steal.link) link
+							br
+
+				h3.center Did you steal/find it?      
 				div
-					span Author :
-					input( type="text", name="person", id="addCommentPerson")
-				div
-					span Comment :
-					textarea( name="comment", rows=5, id="addCommentComment")
-				div.editIdeaSubmit
-					input.btn.btn-success.pull-right(type="submit", value="Send")
+					form.form-horizontal( method="post", action="/idea/addSteal")
+						input( type="hidden", name="_id", value=idea._id.toHexString())
+						div
+							span Idea Name : 
+							input.pull-right( type="text", name="title", id="addStealName")
+						div
+							br
+							span Link :
+							input.pull-right( type="text", name="link", id="addStealLink")
+						div.editIdeaSubmit
+							br
+							br
+							input.btn.btn-success.pull-right.disabled#stealButton(type="submit", value="Submit")    
+						script
+							$('#addStealLink').focusin(function(){$('#stealButton').removeClass('disabled');});						

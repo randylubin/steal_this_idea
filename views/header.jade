@@ -9,7 +9,12 @@ div.navbar-fixed-top.navbar
 					li#login
 						a(href="/login") Log In
 				-else
+					-if (user.fb.name.first)
+						a.brand(href="/profile/" + user._id)= user.fb.name.first
+						
+					-else	
+						a.brand(href="/profile/" + user._id)= user.login	
 					li#profile
-						a(href= '/profile/' + user.login) Profile
+						a(href= '/profile/' + user._id) Profile
 					li
 						a(href='/logout') Logout

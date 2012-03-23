@@ -46,7 +46,8 @@ IdeaProvider.prototype.upvoteIdea = function(ideaId, voter, callback) {
     else {
       idea_collection.update(
         {_id: idea_collection.db.bson_serializer.ObjectID.createFromHexString(ideaId)},
-        {"$addToSet": {voters: voter.voter}},
+        {"$inc": {votes : 1},
+        "$addToSet": {voters: voter.voter}},
         function(error, idea){
           if( error ) callback(error);
           else callback(null, idea)
@@ -77,6 +78,25 @@ IdeaProvider.prototype.findAll = function(callback) {
     });
 };
 
+//findTenRecent
+IdeaProvider.prototype.findFront = function(callback) {
+    this.getCollection(function(error, idea_collection) {
+      if( error ) callback(error)
+      else {
+        idea_collection.find().sort({created_at:-1}).limit(10).toArray(function(error, newIdeas) {
+          if( error ) callback(error)
+          else {
+
+            idea_collection.find().sort({votes:-1}).limit(10).toArray(function(error, topIdeas) {
+              if( error ) callback(error)
+              else callback(null, topIdeas, newIdeas)
+            });
+          }
+        });
+      };
+    });
+};
+
 //findById
 
 IdeaProvider.prototype.findById = function(id, callback) {
@@ -97,7 +117,7 @@ IdeaProvider.prototype.findByUser = function(UserId, callback) {
       userIdq = UserId.toString();
       if( error ) callback(error)
       else {
-        idea_collection.find({'username': userIdq}).toArray(function(error, result) {
+        idea_collection.find({'userId': userIdq}).toArray(function(error, result) {
           console.log(result);
           if( error ) callback(error)
           else callback(null, UserId, result)
@@ -171,6 +191,22 @@ UsersDb.prototype.findAll = function(callback) {
       }
     });
 };
+
+
+UsersDb.prototype.findUser = function(userId, ideas, callback) {
+    this.getCollection(function(error, user_collection) {
+      console.log(userId)
+      if( error ) callback(error)
+      else {
+        user_collection.findOne({"_id": user_collection.db.bson_serializer.ObjectID.createFromHexString(userId)}, function(error, results) {
+          console.log("hello" + results);
+          if( error ) callback(error)
+          else callback(null, results, ideas)
+        });
+      }
+    });
+};
+
 
 exports.IdeaProvider = IdeaProvider;
 exports.UsersDb = UsersDb;

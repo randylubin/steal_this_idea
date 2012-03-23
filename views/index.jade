@@ -1,24 +1,47 @@
-.facebook-auth
-	- if (everyauth.facebook)
-		h3 Facebook User Data
-		p= JSON.stringify(everyauth.facebook.user)
+
 .row
-	div#about.span3
-		h1 About:
-		div.well
+	.span8
+		.hero-unit
+			h1 Steal This Idea
 			p Have a great idea that you're never going to build?  Post it here!
-		a.center.btn.btn-primary.btn-large(href="/idea/new") Post New Idea
+			a.pull-right.btn.btn-primary.btn-large(href="/idea/new") Post New Idea
+
+
+.row
 	div#latest-ideas.span4
 		h1 Latest Ideas
 		div#accordion1.accordion
 			-var i = 0;
-			- each idea in ideas
+			- each idea in newIdeas
 				-i = i + 1
 				div.accordion-group
 					div.accordion-heading
-						a.accordion-toggle(data-toggle="collapse", data-parent="#accordion1", href="#collapse" + i) #{idea.voters.length} votes | #{idea.title}
+						a.accordion-toggle(data-toggle="collapse", data-parent="#accordion1", href="#collapse" + i) #{idea.title}
+							.pull-right \(#{idea.voters.length} Want It\)
 					div.accordion-body.collapse(id="collapse"+ i)
 						div.accordion-inner
 							p= idea.body
-							a.pull-right(href="/idea/"+idea._id.toHexString()) link
+							p= "By: "
+								if (idea.username != "Anonymous")
+									a(href="/profile/"+ idea.userId) #{idea.username}
+								else
+									= "Anonymous"
+								a.btn.btn-info.pull-right(href="/idea/"+idea._id.toHexString()) Idea Page
 	div#top-ideas.span4
+		h1 Top Ideas
+		div#accordion2.accordion
+			- each idea in topIdeas
+				-i = i + 1
+				div.accordion-group
+					div.accordion-heading
+						a.accordion-toggle(data-toggle="collapse", data-parent="#accordion2", href="#collapse" + i) #{idea.title}
+							.pull-right \(#{idea.voters.length} Want It\)
+					div.accordion-body.collapse(id="collapse"+ i)
+						div.accordion-inner
+							p= idea.body
+							p= "By: "
+								if (idea.username != "Anonymous")
+									a(href="/profile/"+ idea.userId) #{idea.username}
+								else
+									= "Anonymous"
+								a.btn.btn-info.pull-right(href="/idea/"+idea._id.toHexString()) Idea Page

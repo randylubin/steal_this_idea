@@ -33,7 +33,7 @@ UserSchema.plugin(mongooseAuth, {
     }
   , facebook: {
       everyauth: {
-          myHostname: 'http://node.randylubin.com'
+          myHostname: 'http://stealthisidea.randylubin.com'
         , appId: conf.fb.appId
         , appSecret: conf.fb.appSecret
         , redirectPath: '/'
@@ -103,10 +103,21 @@ var ideaProvider = new IdeaProvider('localhost', 27017);
 var usersDb = new UsersDb('localhost', 27017);
 
 app.get('/', function(req, res){
-    ideaProvider.findAll( function(error,ideas){
+    ideaProvider.findFront( function(error,topIdeas,newIdeas){
         res.render('index.jade', { locals: {
             title: 'Steal My Idea',
-            ideas:ideas
+            topIdeas:topIdeas,
+            newIdeas:newIdeas
+            }
+        });
+    })
+});
+
+app.get('/ideas', function(req, res){
+    ideaProvider.findTenTop( function(error,ideas){
+        res.render('index.jade', { locals: {
+            title: 'Steal My Idea',
+            ideas: ideas
             }
         });
     })
@@ -169,7 +180,7 @@ app.get('/logout', function (req, res) {
 });
 
 
-
+/*
 app.get('/user/:userId', function(req, res) {
     ideaProvider.findByUser(req.params.userId, function(error, userId, ideas) {
         res.render('userId_show.jade',
@@ -181,16 +192,20 @@ app.get('/user/:userId', function(req, res) {
         });
     });
 });
+*/
 
 app.get('/profile/:userId', function(req, res) {
     ideaProvider.findByUser(req.params.userId, function(error, userId, ideas) {
-        res.render('profile_show.jade',
-        { locals: {
-            userId: userId,
-            title: userId + "'s Profile",
-            ideas:ideas
-        }
-        });
+        usersDb.findUser(userId, ideas, function(error, userinfo, ideas){ 
+          
+          res.render('profile_show.jade',
+          { locals: {
+              userInfo: userinfo,
+              ideas: ideas
+          }
+          });
+
+      })  
     });
 });
 
@@ -226,5 +241,5 @@ app.post('/idea/addSteal', function(req, res) {
 
 mongooseAuth.helpExpress(app);
 
-app.listen(3000);
+app.listen(4000);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
